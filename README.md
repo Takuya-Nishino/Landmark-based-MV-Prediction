@@ -7,18 +7,28 @@ This study develops and validates a dynamic machine-learning framework (Landmark
 
 Key Features
 • Landmark Design: Dynamic risk updating at intubation (LM0) and 72 hours (LM3).
+
 • Algorithms: Multinomial Logistic Regression, XGBoost, and LightGBM.
+
 • Interpretability: SHAP-based feature importance analysis.
+
 • Validation: Temporal validation (cutoff: Jan 1, 2024) and internal–external validation across four hospitals.
 
 Repository Structure
+
 • /preprocessing: Scripts for DPC and EHR laboratory data cleaning and feature engineering.
+
 • /modeling: Hyperparameter optimization (Optuna), model training, and probability calibration.
+
+
 • /evaluation: Code for AUROC/AUPRC calculation, Calibration plots, and Decision Curve Analysis (DCA).
+
 • /visualization: Scripts for generating figures (e.g., Figure 2, 3, and 4).
 
 Requirements
+
 • Python: 3.11.11 (libraries: xgboost, lightgbm, optuna, shap, scikit-learn).
+
 • R: 4.4.1 (for clinical characteristic analysis and specific visualizations).
 
 Data Availability
