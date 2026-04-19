@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "Landmark-based MV Prediction"
+message: "If you use this code, please cite the associated manuscript and repository."
+type: software
+authors:
+  - family-names: "Nishino"
+    given-names: "Takuya"
+repository-code: "https://github.com/Takuya-Nishino/Landmark-based-MV-Prediction"
+license: MIT
+abstract: >-
+  Shareable analysis code for landmark-based prediction of tracheostomy and
+  short-term mortality in mechanically ventilated patients using routinely
+  collected hospital data.
+keywords:
+  - mechanical ventilation
+  - tracheostomy
+  - mortality prediction
+  - landmark analysis
+  - machine learning
