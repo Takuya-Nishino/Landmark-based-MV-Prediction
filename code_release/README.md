@@ -1,57 +1,38 @@
 # Landmark-based MV Prediction
 
-Reusable code package for developing and evaluating landmark-based prediction models for tracheostomy and short-term mortality in mechanically ventilated patients.
+Shareable analysis code for landmark-based prediction of tracheostomy and short-term mortality in mechanically ventilated patients.
 
-## Repository purpose
+## Purpose
 
-This directory contains a cleaned, shareable version of the analysis code originally developed in Jupyter-style script form. The main changes for public sharing are:
+This directory contains a public-facing version of the analysis workflow. The current release focuses on:
 
-- local machine paths were removed and replaced with command-line arguments
-- analysis steps were split into standalone scripts
-- outputs are written relative to a user-specified output directory
-- a minimal repository structure and execution guide were added
+- removal of local machine-specific paths
+- conversion of the original notebook-style workflow into command-line scripts
+- separation of reproducibility notes from manuscript text
+- preparation of a repository structure suitable for GitHub sharing
 
-## Repository structure
+## Current contents
 
 ```text
 code_release/
 ├─ scripts/
-│  ├─ 01_build_landmark_supplement.py
-│  ├─ 02_plot_event_timing_tiff.py
-│  ├─ 03_train_temporal_models.py
-│  ├─ 04_make_manuscript_tables.py
-│  ├─ 05_plot_event_timing_public.py
-│  ├─ 06_make_nonshap_figures.py
-│  └─ 07_make_shap_figures.py
+│  └─ 01_build_landmark_supplement.py
 ├─ docs/
 │  └─ REPRODUCIBILITY_CHECKLIST.md
-├─ data/
-│  └─ .gitkeep
-├─ outputs/
-│  └─ .gitkeep
-├─ artifacts/
-│  └─ .gitkeep
 ├─ .gitignore
 ├─ requirements.txt
 └─ run_example.sh
 ```
 
-## Expected input data
+## Included script
 
-The scripts assume an Excel workbook containing structured routinely collected data used in the manuscript workflow.
-The following columns are expected by different parts of the pipeline:
+### `scripts/01_build_landmark_supplement.py`
+Builds:
+- landmark eligibility summaries by INDEX
+- outcome-specific inclusion flags for LM0 and LM3
+- feature dictionaries used for supplementary tables
 
-- identifiers: `INDEX`
-- baseline date: `Base_Date` or equivalent
-- duration on mechanical ventilation: `人工呼吸_連続日数` or `All_Day`
-- outcome dates: `死亡日`, `気管切開日` or their English alternatives
-- feature columns such as `Day0_*`, `Day3_*`, medications, laboratory values, and department labels
-
-Because the raw data include individual-level clinical information, no sample dataset is bundled in this repository.
-
-## Recommended execution order
-
-### 1. Build landmark eligibility and feature dictionaries
+Example:
 
 ```bash
 python scripts/01_build_landmark_supplement.py \
@@ -59,59 +40,18 @@ python scripts/01_build_landmark_supplement.py \
   --out-dir outputs/supplement
 ```
 
-### 2. Train models and export temporal validation outputs
+## Expected input data
 
-```bash
-python scripts/03_train_temporal_models.py \
-  --excel-path data/your_dataset.xlsx \
-  --out-dir outputs/project_run \
-  --run-mode Final
-```
+The script assumes an Excel workbook containing structured routinely collected data used in the manuscript workflow.
+Expected columns include:
 
-For a lighter test run:
+- identifiers: `INDEX`
+- baseline date: `Base_Date` or equivalent
+- duration on mechanical ventilation: `人工呼吸_連続日数` or `All_Day`
+- outcome dates: `死亡日`, `気管切開日` or their English alternatives
+- feature columns such as `Day0_*`, `Day3_*`, medication variables, laboratory variables, and department labels
 
-```bash
-python scripts/03_train_temporal_models.py \
-  --excel-path data/your_dataset.xlsx \
-  --out-dir outputs/project_run_light \
-  --run-mode Light \
-  --skip-logo
-```
-
-### 3. Build manuscript tables
-
-```bash
-python scripts/04_make_manuscript_tables.py \
-  --results-root outputs/project_run/results_temporal_binary_landmark_excel_complete_cv_sigmoid \
-  --source-excel-path data/your_dataset.xlsx \
-  --table-mode Final
-```
-
-### 4. Build figures
-
-Event timing figure:
-
-```bash
-python scripts/05_plot_event_timing_public.py \
-  --excel-path data/your_dataset.xlsx \
-  --out-dir outputs/figures
-```
-
-Non-SHAP manuscript figures:
-
-```bash
-python scripts/06_make_nonshap_figures.py \
-  --results-root outputs/project_run/results_temporal_binary_landmark_excel_complete_cv_sigmoid \
-  --fig5-model XGBoost
-```
-
-SHAP figures:
-
-```bash
-python scripts/07_make_shap_figures.py \
-  --excel-path data/your_dataset.xlsx \
-  --out-dir outputs/project_run
-```
+Because the raw data include individual-level clinical information, no sample dataset is bundled in this repository.
 
 ## Environment
 
@@ -138,7 +78,7 @@ pip install -r requirements.txt
 
 ## Notes for public release
 
-Before publishing this repository, confirm the following:
+Before publishing or updating this repository, confirm the following:
 
 - no patient-level data are included
 - no facility-specific internal paths remain
@@ -146,13 +86,11 @@ Before publishing this repository, confirm the following:
 - model artifacts do not contain restricted data
 - the manuscript and repository versions are aligned
 
-## Citation / manuscript linkage
+## Manuscript linkage
 
 This repository accompanies the manuscript:
 
 **Landmark-Based Prediction of Tracheostomy and Short-Term Mortality in Mechanically Ventilated Patients Using Routinely Collected Hospital Data: A Multicenter Retrospective Cohort Study**
-
-If you use or adapt this code, please cite the associated manuscript.
 
 ## Disclaimer
 
